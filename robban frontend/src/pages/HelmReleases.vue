@@ -106,7 +106,7 @@ export default {
     syncPagesChanges(data) {
       this.pagBegin = data.pagBeginLocal;
       this.pagEnd = data.pagEndLocal;
-      this.resultsPerPage = data.resultsPerPage;
+      this.resultsPerPage = data.resultsPerPageLocal;
     },
     syncPagination(data) {
       this.pagBegin = data.pagBegin;

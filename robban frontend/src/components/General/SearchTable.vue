@@ -1,5 +1,3 @@
-// changed name to releaseName before startWith
-
 <template>
   <div class="search-name">
     <input
