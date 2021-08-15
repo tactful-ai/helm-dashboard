@@ -35,9 +35,9 @@ export default {
   },
   methods: {
     syncEmit() {
-      console.log(this.totalLengthLocal);
+      // console.log(this.totalLengthLocal);
       this.$emit("syncGroupChanges", {
-        entriesLocalCopy: this.entriesCopyLocal,
+        entriesCopyLocal: this.entriesCopyLocal,
         totalLengthLocal: this.totalLengthLocal,
       });
     },
@@ -75,7 +75,7 @@ export default {
               return el.status === option;
             });
       this.totalLengthLocal = this.entriesCopyLocal.length;
-      console.log(this.entriesCopyLocal);
+      // console.log(this.entriesCopyLocal);
     },
 
     handleResultsPerPage(value) {
