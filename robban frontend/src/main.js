@@ -12,7 +12,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: "/", component: HelmReleases },
-    { path: "/:releaseId/revisions", component: Revisions },
+    { path: "/:releaseName/revisions", component: Revisions },
     { path: "/statusSummary", component: ReleasesSummary },
   ],
 });

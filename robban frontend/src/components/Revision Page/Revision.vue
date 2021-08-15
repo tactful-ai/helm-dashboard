@@ -7,12 +7,12 @@
         @collapseTick="syncRevisionOpen"
       />
       <div class="name flex items-center" @click="toggleRevisionOpen">
-        {{ revision.name }}
+        {{ revision.description }}
       </div>
     </div>
 
     <div class="version mr-8 flex items-center">
-      {{ revision.version }}
+      {{ revision.revision }}
     </div>
   </div>
 
