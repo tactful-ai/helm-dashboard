@@ -1,6 +1,7 @@
 <template>
   <navbar />
   <search-table
+    :key="releasesStatus"
     class="mt-8"
     :pagBegin="pagBegin"
     :pagEnd="pagEnd"
@@ -35,8 +36,6 @@ import Navbar from "../components/General/Navbar.vue";
 import PaginationButtons from "../components/General/PaginationButtons";
 import StatusCard from "../components/ReleasesSummary Page/StatusCard.vue";
 import SearchTable from "../components/General/SearchTable";
-
-// import { releasesStatus } from "../utils/_DATA";
 
 export default {
   components: {
@@ -87,7 +86,7 @@ export default {
     }
   },
   updated() {
-    // console.log(this.pagBegin);
+    // console.log(this.releasesStatus);
   },
 };
 </script>
