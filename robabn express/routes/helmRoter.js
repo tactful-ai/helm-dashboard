@@ -9,4 +9,8 @@ router
   .route("/:relseaseName/revisions/:rev1/:rev2")
   .get(helmController.getDiff);
 
+router
+  .route("/:relseaseName/statusSummary")
+  .get(helmController.getStatusSummary);
+
 module.exports = router;

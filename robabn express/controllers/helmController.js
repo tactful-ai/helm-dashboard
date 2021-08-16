@@ -1,6 +1,11 @@
 const Helm = require("../cmd backend/helm");
+const Kubectl = require("../cmd backend/kubectl");
 
-const { getAddedDeletedLines } = require("../utils/diffHelperFunctions");
+const {
+  getAddedDeletedLines,
+  getDeploymentsServicesStats,
+  getPodsStats,
+} = require("../utils/diffHelperFunctions");
 
 exports.getReleases = async (req, res, next) => {
   const helm = new Helm();
@@ -81,6 +86,43 @@ exports.getDiff = async (req, res, next) => {
     status: "succecss",
     data: {
       files,
+    },
+  });
+};
+
+exports.getStatusSummary = async (req, res, next) => {
+  const helm = new Helm();
+  const manifest = JSON.parse(await helm.getManifest(req.params.relseaseName));
+
+  const kubectl = new Kubectl();
+  const pods = await kubectl.getPods();
+
+  const podStats = getPodsStats(req.params.relseaseName, pods);
+
+  res.status(200).json({
+    status: "succecss",
+    data: {
+      statComponent: [
+        {
+          name: "services",
+          healthy: getDeploymentsServicesStats(manifest).servicesStats.healthy,
+          warning: 0,
+          error: 0,
+        },
+        {
+          name: "pods",
+          healthy: podStats.podsStats.healthy,
+          warning: podStats.podsStats.warning,
+          error: podStats.podsStats.error,
+        },
+        {
+          name: "deployments",
+          healthy:
+            getDeploymentsServicesStats(manifest).deploymentsStats.healthy,
+          warning: 0,
+          error: getDeploymentsServicesStats(manifest).deploymentsStats.error,
+        },
+      ],
     },
   });
 };

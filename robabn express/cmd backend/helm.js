@@ -68,6 +68,21 @@ class Helm {
     );
     return output;
   }
+
+  async getManifest(release) {
+    const output = await this.execute([
+      "get",
+      "manifest",
+      release,
+      "|",
+      "kubectl",
+      "get",
+      "--output=json",
+      "-f",
+      "-",
+    ]);
+    return output;
+  }
 }
 
 module.exports = Helm;
