@@ -4,10 +4,9 @@
       <collapse-tick
         :key="revisionOpen"
         :revisionOpen="revisionOpen"
-        @collapseTick="syncRevisionOpen"
         @click="setComparedRevisions"
       />
-      <div class="name flex items-center" @click="toggleRevisionOpen">
+      <div class="name flex items-center" @click="setComparedRevisions">
         {{ revision.description }}
       </div>
     </div>
@@ -36,13 +35,19 @@ export default {
     };
   },
   methods: {
-    syncRevisionOpen(data) {
-      this.revisionOpen = data;
-    },
+    // syncRevisionOpen(data) {
+    //   this.revisionOpen = data;
+    // },
     toggleRevisionOpen() {
       this.revisionOpen = !this.revisionOpen;
     },
     async setComparedRevisions() {
+      if (this.revisionOpen === true) {
+        this.revisionOpen = !this.revisionOpen;
+        return;
+      }
+      this.revisionOpen = !this.revisionOpen;
+
       this.comparedRevisions[0] = this.revision.revision;
       this.comparedRevisions[1] = this.revision.revision - 1;
 
