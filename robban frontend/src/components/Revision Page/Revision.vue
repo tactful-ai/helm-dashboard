@@ -5,6 +5,7 @@
         :key="revisionOpen"
         :revisionOpen="revisionOpen"
         @collapseTick="syncRevisionOpen"
+        @click="setComparedRevisions"
       />
       <div class="name flex items-center" @click="toggleRevisionOpen">
         {{ revision.description }}
@@ -16,7 +17,7 @@
     </div>
   </div>
 
-  <release-files :revision="revision" v-if="revisionOpen" />
+  <release-files :files="files" v-if="revisionOpen" />
 </template>
 
 <script>
@@ -30,6 +31,8 @@ export default {
   data() {
     return {
       revisionOpen: false,
+      comparedRevisions: [0, 0],
+      files: [],
     };
   },
   methods: {
@@ -38,6 +41,21 @@ export default {
     },
     toggleRevisionOpen() {
       this.revisionOpen = !this.revisionOpen;
+    },
+    async setComparedRevisions() {
+      this.comparedRevisions[0] = this.revision.revision;
+      this.comparedRevisions[1] = this.revision.revision - 1;
+
+      try {
+        const url = `http://localhost:3001/api/v1/helm/${this.$route.params.releaseName}/revisions/${this.comparedRevisions[0]}/${this.comparedRevisions[1]}`;
+        const response = await fetch(url, {
+          method: "GET",
+        });
+        const data = await response.json();
+        this.files = data.data.files;
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 };

@@ -46,21 +46,12 @@ export default {
     };
   },
   computed: {
-    // revisionsLength() {
-    //   return revisions.length;
-    // },
     currentRelease() {
       const currentRelease = this.releases.filter(
         (el) => el.name === this.releaseId
       );
       return currentRelease[0];
     },
-    // currentRevisions() {
-    //   const currentRevisions = revisions.filter(
-    //     (el) => el.name === this.releaseId
-    //   );
-    //   return currentRevisions;
-    // },
   },
   methods: {
     syncPagination(data) {

@@ -43,17 +43,17 @@ export default {
       this.fileOpen = !this.fileOpen;
     },
     linesColorController() {
-      if (this.fileLocal.status === "deleted") {
+      if (this.fileLocal.status === "REMOVE") {
         for (let i = 0; i <= this.fileLocal.content.length; i++) {
           this.fileLocal.content[i - 1] =
             "----" + this.fileLocal.content[i - 1];
         }
-      } else if (this.fileLocal.status === "added") {
+      } else if (this.fileLocal.status === "ADD") {
         for (let i = 0; i <= this.fileLocal.content.length; i++) {
           this.fileLocal.content[i - 1] =
             "++++" + this.fileLocal.content[i - 1];
         }
-      } else if (this.fileLocal.status === "changed") {
+      } else if (this.fileLocal.status === "MODIFY") {
         for (let i of this.fileLocal.changedInfo.addedLines) {
           this.fileLocal.content[i - 1] =
             "++++" + this.fileLocal.content[i - 1];
@@ -67,9 +67,9 @@ export default {
   },
   computed: {
     statusColor() {
-      if (this.file.status === "added") {
+      if (this.file.status === "ADD") {
         return "bg-green-500";
-      } else if (this.file.status === "deleted") {
+      } else if (this.file.status === "REMOVE") {
         return "bg-red-500";
       } else {
         return "bg-red-200";

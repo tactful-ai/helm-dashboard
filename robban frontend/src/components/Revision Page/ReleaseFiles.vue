@@ -1,6 +1,6 @@
 <template>
   <div class="release-files">
-    <template v-for="file in revision.files" :key="file">
+    <template v-for="file in files" :key="file">
       <release-single-file :file="file" />
     </template>
   </div>
@@ -12,10 +12,12 @@ import ReleaseSingleFile from "./ReleaseSignleFile.vue";
 export default {
   components: { ReleaseSingleFile },
   props: {
-    revision: { type: Object },
+    files: { type: Array },
   },
   data() {
-    return {};
+    return {
+      // files: [],
+    };
   },
   methods: {
     //

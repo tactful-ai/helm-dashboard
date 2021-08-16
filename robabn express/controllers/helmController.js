@@ -25,6 +25,9 @@ exports.getRevisions = async (req, res, next) => {
   const helm = new Helm();
   const history = await helm.getReleaseHistory(req.params.relseaseName);
 
+  // reverse the history array (desscending sort on the revision version)
+  history.reverse();
+
   res.status(200).json({
     status: "succecss",
     data: {
@@ -51,8 +54,6 @@ exports.getDiff = async (req, res, next) => {
     return fileContent.split("\n");
   });
 
-  let files = [];
-
   const diffObject = JSON.parse(
     await helm.getDiff(
       req.params.relseaseName,
@@ -61,6 +62,8 @@ exports.getDiff = async (req, res, next) => {
       true
     )
   );
+
+  let files = [];
 
   for (let i = 0; i < diffObject.length; i++) {
     files.push({
