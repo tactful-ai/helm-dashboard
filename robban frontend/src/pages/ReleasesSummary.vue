@@ -36,7 +36,7 @@ import PaginationButtons from "../components/General/PaginationButtons";
 import StatusCard from "../components/ReleasesSummary Page/StatusCard.vue";
 import SearchTable from "../components/General/SearchTable";
 
-import { releasesStatus } from "../utils/_DATA";
+// import { releasesStatus } from "../utils/_DATA";
 
 export default {
   components: {
@@ -47,12 +47,11 @@ export default {
   },
   data() {
     return {
-      releasesStatus,
-      releasesStatusCopy: releasesStatus,
+      releasesStatus: [],
+      releasesStatusCopy: [],
       pagBegin: 1,
       pagEnd: 12,
-      totalLength: releasesStatus.length,
-      //
+      totalLength: 0,
     };
   },
   methods: {
@@ -66,6 +65,26 @@ export default {
       this.releasesStatusCopy = data.entriesCopyLocal;
       this.totalLength = data.totalLengthLocal;
     },
+  },
+  async mounted() {
+    try {
+      const url = `http://localhost:3001/api/v1/helm/statusSummary`;
+
+      console.log(url);
+
+      const response = await fetch(url, {
+        method: "GET",
+      });
+
+      const data = await response.json();
+      console.log(data.data.releasesStatus);
+
+      this.releasesStatus = data.data.releasesStatus;
+      this.releasesStatusCopy = data.data.releasesStatus;
+      this.totalLength = data.data.releasesStatus.length;
+    } catch (err) {
+      console.log(err);
+    }
   },
   updated() {
     // console.log(this.pagBegin);

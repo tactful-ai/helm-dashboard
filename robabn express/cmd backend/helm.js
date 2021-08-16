@@ -81,7 +81,7 @@ class Helm {
       "-f",
       "-",
     ]);
-    return output;
+    return JSON.parse(output);
   }
 }
 

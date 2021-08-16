@@ -91,17 +91,20 @@ exports.getDiff = async (req, res, next) => {
 };
 
 exports.getStatusSummary = async (req, res, next) => {
-  const helm = new Helm();
-  const manifest = JSON.parse(await helm.getManifest(req.params.relseaseName));
+  let releasesStatus = [];
+  let manifest;
+  let podStats;
 
+  const helm = new Helm();
   const kubectl = new Kubectl();
   const pods = await kubectl.getPods();
+  const releases = await helm.getReleases();
 
-  const podStats = getPodsStats(req.params.relseaseName, pods);
-
-  res.status(200).json({
-    status: "succecss",
-    data: {
+  for (release of releases) {
+    manifest = await helm.getManifest(release.name);
+    podStats = getPodsStats(release.name, pods);
+    releasesStatus.push({
+      releaseName: release.name,
       statComponent: [
         {
           name: "services",
@@ -123,6 +126,13 @@ exports.getStatusSummary = async (req, res, next) => {
           error: getDeploymentsServicesStats(manifest).deploymentsStats.error,
         },
       ],
+    });
+  }
+
+  res.status(200).json({
+    status: "succecss",
+    data: {
+      releasesStatus,
     },
   });
 };
