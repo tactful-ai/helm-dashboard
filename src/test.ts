@@ -1,14 +1,9 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// No Node.js APIs are available in this process unless
-// nodeIntegration is set to true in webPreferences.
-// Use preload.js to selectively enable features
-// needed in the renderer process.
-import { HelmMainController } from "./helm-client";
+import { Helm } from "./helm-server";
 
-(async () => {
-    let helm = new HelmMainController();
-    
+async function main(): Promise<any> {
+
+    const helm = new Helm();
+
     let releases = await helm.getReleases();
     console.log(releases);
 
@@ -20,4 +15,7 @@ import { HelmMainController } from "./helm-client";
     console.log(history);
     console.log(await helm.getDiff(release.name, history[history.length -3].revision, history[history.length -2].revision));
     return 0;
-})().then();
+}
+
+
+main().then();
