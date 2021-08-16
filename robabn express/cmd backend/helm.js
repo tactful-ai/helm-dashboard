@@ -52,7 +52,7 @@ class Helm {
     return matches[0];
   }
 
-  async getDiff(release, rev1, rev2) {
+  async getDiff(release, rev1, rev2, toJson = false) {
     const output = await this.execute(
       [
         "diff",
@@ -64,7 +64,7 @@ class Helm {
         String(rev1),
         String(rev2),
       ],
-      false
+      toJson
     );
     return output;
   }
