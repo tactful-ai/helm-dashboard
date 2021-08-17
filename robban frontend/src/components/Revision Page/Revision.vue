@@ -24,7 +24,9 @@ import CollapseTick from "./CollapseTick.vue";
 import ReleaseFiles from "./ReleaseFiles.vue";
 
 import { APIConnector } from "../../utils/APIConnector";
-import { ElectronAPI } from "../../../../desktopElectron/dist/ElectronAPI";
+// import { ElectronAPI } from "../../../../desktopElectron/dist/ElectronAPI";
+const ElectronAPI = () =>
+  import("../../../../desktopElectron/dist/ElectronAPI");
 
 export default {
   components: { CollapseTick, ReleaseFiles },
@@ -55,7 +57,9 @@ export default {
 
       let api;
       if (this.userAgent === "Electron") {
-        api = new ElectronAPI();
+        const temp = await new ElectronAPI();
+        api = temp.ElectronAPI.prototype;
+        // api = new ElectronAPI();
       } else {
         api = new APIConnector();
       }

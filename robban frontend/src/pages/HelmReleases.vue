@@ -72,7 +72,9 @@ import PaginationButtons from "../components/General/PaginationButtons.vue";
 import Navbar from "../components/General/Navbar.vue";
 
 import { APIConnector } from "../utils/APIConnector";
-import { ElectronAPI } from "../../../desktopElectron/dist/ElectronAPI";
+// import { ElectronAPI } from "../../../desktopElectron/dist/ElectronAPI";
+const ElectronAPI = async () =>
+  await import("../../../desktopElectron/dist/ElectronAPI");
 
 export default {
   components: {
@@ -123,7 +125,10 @@ export default {
   async mounted() {
     let api;
     if (this.userAgent === "Electron") {
-      api = new ElectronAPI();
+      const temp = await new ElectronAPI();
+      api = temp.ElectronAPI.prototype;
+
+      // api = await new ElectronAPI();
     } else {
       api = new APIConnector();
     }

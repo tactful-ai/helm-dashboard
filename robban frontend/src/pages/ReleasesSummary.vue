@@ -38,7 +38,8 @@ import StatusCard from "../components/ReleasesSummary Page/StatusCard.vue";
 import SearchTable from "../components/General/SearchTable";
 
 import { APIConnector } from "../utils/APIConnector";
-import { ElectronAPI } from "../../../desktopElectron/dist/ElectronAPI";
+// import { ElectronAPI } from "../../../desktopElectron/dist/ElectronAPI";
+const ElectronAPI = () => import("../../../desktopElectron/dist/ElectronAPI");
 
 export default {
   components: {
@@ -74,7 +75,9 @@ export default {
   async mounted() {
     let api;
     if (this.userAgent === "Electron") {
-      api = new ElectronAPI();
+      const temp = await new ElectronAPI();
+      api = temp.ElectronAPI.prototype;
+      // api = new ElectronAPI();
     } else {
       api = new APIConnector();
     }

@@ -3,8 +3,6 @@
 </template>
 
 <script>
-// import { ElectronAPI } from "../../desktopElectron/dist/ElectronAPI";
-
 export default {
   components: {},
   data() {
@@ -12,11 +10,8 @@ export default {
       userAgent: "",
     };
   },
-  async mounted() {
-    // const data = new ElectronAPI();
-    // console.log(await data.getReleases());
-    // console.log(await data.getDiff("nginx-1629010537", 0, 1));
-    // console.log(await data.getStatusSummary());
+  mounted() {
+    console.log(window.navigator.userAgent);
 
     if (window.navigator.userAgent.includes("Electron")) {
       console.log("I'm in desktop");

@@ -30,7 +30,8 @@ import PaginationButtons from "../components/General/PaginationButtons.vue";
 import ReleaseRevisions from "../components/Revision Page/ReleaseRevisions.vue";
 
 import { APIConnector } from "../utils/APIConnector";
-import { ElectronAPI } from "../../../desktopElectron/dist/ElectronAPI";
+// import { ElectronAPI } from "../../../desktopElectron/dist/ElectronAPI";
+const ElectronAPI = () => import("../../../desktopElectron/dist/ElectronAPI");
 
 export default {
   components: {
@@ -70,7 +71,9 @@ export default {
   async mounted() {
     let api;
     if (this.userAgent === "Electron") {
-      api = new ElectronAPI();
+      const temp = await new ElectronAPI();
+      api = temp.ElectronAPI.prototype;
+      // api = new ElectronAPI();
     } else {
       api = new APIConnector();
     }

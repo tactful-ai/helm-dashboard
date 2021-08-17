@@ -16,7 +16,7 @@ export const getAddedDeletedLines = (content: string[]) => {
   };
 };
 
-export const getDeploymentsServicesStats = (manifest) => {
+export const getDeploymentsServicesStats = (manifest: any) => {
   const deploymentsStats = {
     healthy: 0,
     error: 0,
@@ -26,7 +26,7 @@ export const getDeploymentsServicesStats = (manifest) => {
     healthy: 0,
   };
 
-  manifest.items.forEach((item) => {
+  manifest.items.forEach((item: any) => {
     if (item.kind === "Deployment") {
       if (item.spec.replicas <= item.status.availableReplicas) {
         deploymentsStats.healthy += 1;
