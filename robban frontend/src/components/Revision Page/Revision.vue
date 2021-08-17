@@ -24,11 +24,13 @@ import CollapseTick from "./CollapseTick.vue";
 import ReleaseFiles from "./ReleaseFiles.vue";
 
 import { APIConnector } from "../../utils/APIConnector";
+import { ElectronAPI } from "../../../../desktopElectron/dist/ElectronAPI";
 
 export default {
   components: { CollapseTick, ReleaseFiles },
   props: {
     revision: { type: Object },
+    userAgent: { type: String },
   },
   data() {
     return {
@@ -51,7 +53,13 @@ export default {
       this.comparedRevisions[0] = this.revision.revision;
       this.comparedRevisions[1] = this.revision.revision - 1;
 
-      const api = new APIConnector();
+      let api;
+      if (this.userAgent === "Electron") {
+        api = new ElectronAPI();
+      } else {
+        api = new APIConnector();
+      }
+
       const files = await api.getDiff(
         this.$route.params.releaseName,
         this.comparedRevisions[0],

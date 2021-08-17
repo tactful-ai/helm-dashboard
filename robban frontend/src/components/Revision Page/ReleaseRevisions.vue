@@ -8,6 +8,7 @@
       <revision
         v-if="index - 1 >= pagBegin - 1"
         :revision="currentRevisions[index - 1]"
+        :userAgent="userAgent"
       />
     </div>
   </div>
@@ -22,6 +23,7 @@ export default {
     revisionsLength: { type: Number },
     pagBegin: { type: Number },
     pagEnd: { type: Number },
+    userAgent: { type: String },
   },
   data() {
     return {

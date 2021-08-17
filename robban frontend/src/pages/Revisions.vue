@@ -17,6 +17,7 @@
         :pagBegin="pagBegin"
         :pagEnd="pagEnd"
         :revisionsLength="releaseRevisions.length"
+        :userAgent="userAgent"
       />
     </div>
   </div>
@@ -29,6 +30,7 @@ import PaginationButtons from "../components/General/PaginationButtons.vue";
 import ReleaseRevisions from "../components/Revision Page/ReleaseRevisions.vue";
 
 import { APIConnector } from "../utils/APIConnector";
+import { ElectronAPI } from "../../../desktopElectron/dist/ElectronAPI";
 
 export default {
   components: {
@@ -36,6 +38,9 @@ export default {
     CurrentReleaseCard,
     ReleaseRevisions,
     PaginationButtons,
+  },
+  props: {
+    userAgent: { type: String },
   },
   data() {
     return {
@@ -63,7 +68,13 @@ export default {
     getCurrentRelease() {},
   },
   async mounted() {
-    const api = new APIConnector();
+    let api;
+    if (this.userAgent === "Electron") {
+      api = new ElectronAPI();
+    } else {
+      api = new APIConnector();
+    }
+
     const revisions = await api.getRevision(this.releaseId);
     const releases = await api.getReleases();
 

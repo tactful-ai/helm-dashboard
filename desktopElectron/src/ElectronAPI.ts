@@ -21,7 +21,7 @@ export class ElectronAPI {
     return releases;
   }
 
-  async getRevisions(releaseName: string) {
+  async getRevision(releaseName: string) {
     const helm = new HelmMainController();
     const history = await helm.getReleaseHistory(releaseName);
 

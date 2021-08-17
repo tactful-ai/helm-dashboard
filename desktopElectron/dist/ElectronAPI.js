@@ -71,7 +71,7 @@ var ElectronAPI = /** @class */ (function () {
             });
         });
     };
-    ElectronAPI.prototype.getRevisions = function (releaseName) {
+    ElectronAPI.prototype.getRevision = function (releaseName) {
         return __awaiter(this, void 0, void 0, function () {
             var helm, history;
             return __generator(this, function (_a) {

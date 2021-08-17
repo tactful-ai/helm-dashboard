@@ -72,6 +72,7 @@ import PaginationButtons from "../components/General/PaginationButtons.vue";
 import Navbar from "../components/General/Navbar.vue";
 
 import { APIConnector } from "../utils/APIConnector";
+import { ElectronAPI } from "../../../desktopElectron/dist/ElectronAPI";
 
 export default {
   components: {
@@ -80,6 +81,9 @@ export default {
     Navbar,
     SearchTable,
     PaginationButtons,
+  },
+  props: {
+    userAgent: { type: String },
   },
   data() {
     return {
@@ -117,7 +121,12 @@ export default {
   },
 
   async mounted() {
-    const api = new APIConnector();
+    let api;
+    if (this.userAgent === "Electron") {
+      api = new ElectronAPI();
+    } else {
+      api = new APIConnector();
+    }
     const releases = await api.getReleases();
     this.entries = releases;
     this.entriesCopy = releases;

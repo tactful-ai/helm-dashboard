@@ -38,6 +38,7 @@ import StatusCard from "../components/ReleasesSummary Page/StatusCard.vue";
 import SearchTable from "../components/General/SearchTable";
 
 import { APIConnector } from "../utils/APIConnector";
+import { ElectronAPI } from "../../../desktopElectron/dist/ElectronAPI";
 
 export default {
   components: {
@@ -45,6 +46,9 @@ export default {
     PaginationButtons,
     StatusCard,
     SearchTable,
+  },
+  props: {
+    userAgent: { type: String },
   },
   data() {
     return {
@@ -68,7 +72,12 @@ export default {
     },
   },
   async mounted() {
-    const api = new APIConnector();
+    let api;
+    if (this.userAgent === "Electron") {
+      api = new ElectronAPI();
+    } else {
+      api = new APIConnector();
+    }
     const statusSummary = await api.getStatusSummary();
 
     this.releasesStatus = statusSummary;
