@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { HelmMainController } from "../../desktopElectron/dist/helm-client";
+// import { HelmMainController } from "../../desktopElectron/dist/helm-client";
 
 export default {
   components: {},
@@ -11,9 +11,10 @@ export default {
     return {};
   },
   async mounted() {
-    let helm = new HelmMainController();
-    let releases = await helm.getReleases();
-    console.log(releases);
+    // let helm = new HelmMainController();
+    // let releases = await helm.getReleases();
+    // console.log(releases);
+    console.log(window.navigator.userAgent);
   },
 };
 </script>

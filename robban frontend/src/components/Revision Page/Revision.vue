@@ -22,6 +22,9 @@
 <script>
 import CollapseTick from "./CollapseTick.vue";
 import ReleaseFiles from "./ReleaseFiles.vue";
+
+import { APIConnector } from "../../utils/APIConnector";
+
 export default {
   components: { CollapseTick, ReleaseFiles },
   props: {
@@ -35,9 +38,6 @@ export default {
     };
   },
   methods: {
-    // syncRevisionOpen(data) {
-    //   this.revisionOpen = data;
-    // },
     toggleRevisionOpen() {
       this.revisionOpen = !this.revisionOpen;
     },
@@ -51,16 +51,14 @@ export default {
       this.comparedRevisions[0] = this.revision.revision;
       this.comparedRevisions[1] = this.revision.revision - 1;
 
-      try {
-        const url = `http://localhost:3001/api/v1/helm/${this.$route.params.releaseName}/revisions/${this.comparedRevisions[0]}/${this.comparedRevisions[1]}`;
-        const response = await fetch(url, {
-          method: "GET",
-        });
-        const data = await response.json();
-        this.files = data.data.files;
-      } catch (err) {
-        console.log(err);
-      }
+      const api = new APIConnector();
+      const files = await api.getDiff(
+        this.$route.params.releaseName,
+        this.comparedRevisions[0],
+        this.comparedRevisions[1]
+      );
+
+      this.files = files;
     },
   },
 };

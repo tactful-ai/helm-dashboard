@@ -28,6 +28,8 @@ import Navbar from "../components/General/Navbar.vue";
 import PaginationButtons from "../components/General/PaginationButtons.vue";
 import ReleaseRevisions from "../components/Revision Page/ReleaseRevisions.vue";
 
+import { APIConnector } from "../utils/APIConnector";
+
 export default {
   components: {
     Navbar,
@@ -61,35 +63,12 @@ export default {
     getCurrentRelease() {},
   },
   async mounted() {
-    try {
-      // Fetching Revisions
-      const releaseRevisionsUrl = `http://localhost:3001/api/v1/helm/${this.releaseId}/revisions`;
+    const api = new APIConnector();
+    const revisions = await api.getRevision(this.releaseId);
+    const releases = await api.getReleases();
 
-      const releaseRevisionsResponse = await fetch(releaseRevisionsUrl, {
-        method: "GET",
-      });
-
-      const releaseRevisionsData = await releaseRevisionsResponse.json();
-
-      // Fetching responses
-      const releasesUrl = `http://localhost:3001/api/v1/helm/`;
-
-      const releasesResponse = await fetch(releasesUrl, {
-        method: "GET",
-      });
-
-      const releasesData = await releasesResponse.json();
-
-      // Checking
-      console.log(releasesData.data.releases);
-      console.log(releaseRevisionsData.data.history);
-
-      // Loading the data
-      this.releases = releasesData.data.releases;
-      this.releaseRevisions = releaseRevisionsData.data.history;
-    } catch (err) {
-      console.log(err);
-    }
+    this.releases = releases;
+    this.releaseRevisions = revisions;
   },
 };
 </script>

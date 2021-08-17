@@ -71,6 +71,8 @@ import SearchTable from "../components/General/SearchTable.vue";
 import PaginationButtons from "../components/General/PaginationButtons.vue";
 import Navbar from "../components/General/Navbar.vue";
 
+import { APIConnector } from "../utils/APIConnector";
+
 export default {
   components: {
     SelectOption,
@@ -115,22 +117,11 @@ export default {
   },
 
   async mounted() {
-    try {
-      const url = `http://localhost:3001/api/v1/helm/`;
-
-      const response = await fetch(url, {
-        method: "GET",
-      });
-
-      const data = await response.json();
-      console.log(data.data.releases);
-
-      this.entries = data.data.releases;
-      this.entriesCopy = data.data.releases;
-      this.totalLength = data.data.releases.length;
-    } catch (err) {
-      console.log(err);
-    }
+    const api = new APIConnector();
+    const releases = await api.getReleases();
+    this.entries = releases;
+    this.entriesCopy = releases;
+    this.totalLength = releases.length;
   },
   watch: {
     entries() {
