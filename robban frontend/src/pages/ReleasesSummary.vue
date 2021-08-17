@@ -37,6 +37,8 @@ import PaginationButtons from "../components/General/PaginationButtons";
 import StatusCard from "../components/ReleasesSummary Page/StatusCard.vue";
 import SearchTable from "../components/General/SearchTable";
 
+import { APIConnector } from "../utils/APIConnector";
+
 export default {
   components: {
     Navbar,
@@ -66,24 +68,12 @@ export default {
     },
   },
   async mounted() {
-    try {
-      const url = `http://localhost:3001/api/v1/helm/statusSummary`;
+    const api = new APIConnector();
+    const statusSummary = await api.getStatusSummary();
 
-      console.log(url);
-
-      const response = await fetch(url, {
-        method: "GET",
-      });
-
-      const data = await response.json();
-      console.log(data.data.releasesStatus);
-
-      this.releasesStatus = data.data.releasesStatus;
-      this.releasesStatusCopy = data.data.releasesStatus;
-      this.totalLength = data.data.releasesStatus.length;
-    } catch (err) {
-      console.log(err);
-    }
+    this.releasesStatus = statusSummary;
+    this.releasesStatusCopy = statusSummary;
+    this.totalLength = statusSummary.length;
   },
   updated() {
     // console.log(this.releasesStatus);

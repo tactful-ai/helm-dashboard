@@ -12,9 +12,12 @@
         </div>
       </div>
     </router-link>
-    <div class="Another nav elements">
-      &nbsp;
-    </div>
+
+    <router-link to="/statusSummary">
+      <div class="flex justify-center items-center">
+        Releases Summary
+      </div>
+    </router-link>
   </div>
 </template>
 

@@ -42,4 +42,19 @@ export class APIConnector {
       console.log(err);
     }
   }
+
+  async getStatusSummary() {
+    try {
+      const url = `http://localhost:3001/api/v1/helm/statusSummary`;
+
+      const response = await fetch(url, {
+        method: "GET",
+      });
+
+      const data = await response.json();
+      return data.data.releasesStatus;
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
