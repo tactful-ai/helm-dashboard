@@ -71,8 +71,8 @@ export default {
   async mounted() {
     let api;
     if (this.userAgent === "Electron") {
-      const temp = await new ElectronAPI();
-      api = temp.ElectronAPI.prototype;
+      const ElectronAPIImports = await new ElectronAPI();
+      api = await new ElectronAPIImports.ElectronAPI();
       // api = new ElectronAPI();
     } else {
       api = new APIConnector();
