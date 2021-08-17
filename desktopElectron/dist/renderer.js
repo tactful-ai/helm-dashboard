@@ -42,13 +42,13 @@ exports.__esModule = true;
 // nodeIntegration is set to true in webPreferences.
 // Use preload.js to selectively enable features
 // needed in the renderer process.
-var helm_client_1 = require("./helm-client");
+var electron_client_1 = require("./electron-client");
 (function () { return __awaiter(void 0, void 0, void 0, function () {
     var helm, releases, release, history, _a, _b;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
-                helm = new helm_client_1.HelmMainController();
+                helm = new electron_client_1.HelmMainController();
                 return [4 /*yield*/, helm.getReleases()];
             case 1:
                 releases = _c.sent();
@@ -61,7 +61,7 @@ var helm_client_1 = require("./helm-client");
                 history = _c.sent();
                 console.log(history);
                 _b = (_a = console).log;
-                return [4 /*yield*/, helm.getDiff(release.name, history[history.length - 3].revision, history[history.length - 2].revision)];
+                return [4 /*yield*/, helm.getDiff(release.name, history[history.length - 3].revision, history[history.length - 2].revision, true)];
             case 3:
                 _b.apply(_a, [_c.sent()]);
                 return [2 /*return*/, 0];

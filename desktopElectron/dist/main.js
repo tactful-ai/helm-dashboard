@@ -39,7 +39,7 @@ exports.__esModule = true;
 var electron_1 = require("electron");
 var path = require("path");
 var electron_2 = require("electron");
-var helm_server_1 = require("./helm-server");
+var electron_server_1 = require("./electron-server");
 function createWindow() {
     // Create the browser window.
     var mainWindow = new electron_1.BrowserWindow({
@@ -82,10 +82,10 @@ electron_1.app.on("window-all-closed", function () {
 // NotWorking .. does not get method names .. mostly because of transpiling
 function setupHelmHandlersDynamic() {
     var _this = this;
-    var helm = new helm_server_1.Helm();
+    var helm = new electron_server_1.Helm();
     var funcs = Object.keys(helm);
     console.log("helm members", funcs);
-    funcs = funcs.filter(function (func) { return (typeof helm[func]) === 'function'; });
+    funcs = funcs.filter(function (func) { return typeof helm[func] === "function"; });
     console.log("helm funcs", funcs);
     var _loop_1 = function (func) {
         console.log("adding handler for", func);
@@ -94,12 +94,14 @@ function setupHelmHandlersDynamic() {
             for (var _i = 1; _i < arguments.length; _i++) {
                 args[_i - 1] = arguments[_i];
             }
-            return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, helm[func].apply(helm, args)];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            }); });
+            return __awaiter(_this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, helm[func].apply(helm, args)];
+                        case 1: return [2 /*return*/, _a.sent()];
+                    }
+                });
+            });
         });
     };
     for (var _i = 0, funcs_1 = funcs; _i < funcs_1.length; _i++) {
@@ -109,90 +111,104 @@ function setupHelmHandlersDynamic() {
 }
 function setupHelmHandlers() {
     var _this = this;
-    var helm = new helm_server_1.Helm();
+    var helm = new electron_server_1.Helm();
     electron_2.ipcMain.handle("getReleases", function (event) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, helm.getReleases.apply(helm, args)];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        }); });
+        return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, helm.getReleases.apply(helm, args)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
     });
     electron_2.ipcMain.handle("getReleaseValues", function (event) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, helm.getReleaseValues.apply(helm, args)];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        }); });
+        return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, helm.getReleaseValues.apply(helm, args)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
     });
     electron_2.ipcMain.handle("getReleaseHistory", function (event) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, helm.getReleaseHistory.apply(helm, args)];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        }); });
+        return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, helm.getReleaseHistory.apply(helm, args)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
     });
     electron_2.ipcMain.handle("getHelmRepos", function (event) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, helm.getHelmRepos.apply(helm, args)];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        }); });
+        return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, helm.getHelmRepos.apply(helm, args)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
     });
     electron_2.ipcMain.handle("getChatVersion", function (event) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, helm.getChatVersion.apply(helm, args)];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        }); });
+        return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, helm.getChatVersion.apply(helm, args)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
     });
     electron_2.ipcMain.handle("getChartName", function (event) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, helm.getChartName.apply(helm, args)];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        }); });
+        return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, helm.getChartName.apply(helm, args)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
     });
     electron_2.ipcMain.handle("getDiff", function (event) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, helm.getDiff.apply(helm, args)];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        }); });
+        return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, helm.getDiff.apply(helm, args)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
     });
 }
 //# sourceMappingURL=main.js.map

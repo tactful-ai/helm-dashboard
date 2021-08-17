@@ -36,19 +36,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.Helm = void 0;
+exports.Kubectl = void 0;
 var child_process_1 = require("child_process");
 var util_1 = require("util");
 var execAsync = util_1.promisify(child_process_1.exec);
-var Helm = /** @class */ (function () {
-    function Helm(namespace) {
+var Kubectl = /** @class */ (function () {
+    function Kubectl(namespace) {
         if (namespace === void 0) { namespace = null; }
-        this.executable = "helm";
+        this.executable = "kubectl";
         this.namespace = null;
         this.namespace = namespace;
     }
-    Helm.prototype.execute = function (args, json) {
-        if (json === void 0) { json = true; }
+    Kubectl.prototype.execute = function (args, json) {
+        if (json === void 0) { json = false; }
         return __awaiter(this, void 0, void 0, function () {
             var format, fullCmd, output;
             return __generator(this, function (_a) {
@@ -56,7 +56,6 @@ var Helm = /** @class */ (function () {
                     case 0:
                         format = json ? "--output json" : "";
                         fullCmd = this.executable + " " + args.join(" ") + " " + format;
-                        console.warn("executing: $ ", fullCmd);
                         return [4 /*yield*/, execAsync(fullCmd)];
                     case 1:
                         output = _a.sent();
@@ -65,73 +64,12 @@ var Helm = /** @class */ (function () {
             });
         });
     };
-    Helm.prototype.getReleases = function () {
+    Kubectl.prototype.getPods = function () {
         return __awaiter(this, void 0, void 0, function () {
             var output;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.execute(["list"])];
-                    case 1:
-                        output = _a.sent();
-                        return [2 /*return*/, JSON.parse(output)];
-                }
-            });
-        });
-    };
-    Helm.prototype.getReleaseValues = function (release) {
-        return __awaiter(this, void 0, void 0, function () {
-            var output;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.execute(["get", "values", release])];
-                    case 1:
-                        output = _a.sent();
-                        return [2 /*return*/, JSON.parse(output)];
-                }
-            });
-        });
-    };
-    Helm.prototype.getReleaseHistory = function (release) {
-        return __awaiter(this, void 0, void 0, function () {
-            var output;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.execute(["history", release])];
-                    case 1:
-                        output = _a.sent();
-                        return [2 /*return*/, JSON.parse(output)];
-                }
-            });
-        });
-    };
-    Helm.prototype.getHelmRepos = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var output;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.execute(["repo", "list"])];
-                    case 1:
-                        output = _a.sent();
-                        return [2 /*return*/, JSON.parse(output)];
-                }
-            });
-        });
-    };
-    Helm.prototype.getChatVersion = function (chart) {
-        var rx = RegExp("-(v?[0-9]+\.[0-9]+\.[0-9]+.*)");
-        var matches = chart.match(rx);
-        return matches[0];
-    };
-    Helm.prototype.getChartName = function (chart) {
-        var matches = chart.match(/^(.*)-/);
-        return matches[0];
-    };
-    Helm.prototype.getDiff = function (release, rev1, rev2) {
-        return __awaiter(this, void 0, void 0, function () {
-            var output;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.execute(["diff", "--output", "diff", "--no-color", "revision", release, String(rev1), String(rev2)], false)];
+                    case 0: return [4 /*yield*/, this.execute(["get", "pods"])];
                     case 1:
                         output = _a.sent();
                         return [2 /*return*/, output];
@@ -139,7 +77,7 @@ var Helm = /** @class */ (function () {
             });
         });
     };
-    return Helm;
+    return Kubectl;
 }());
-exports.Helm = Helm;
-//# sourceMappingURL=helm-server.js.map
+exports.Kubectl = Kubectl;
+//# sourceMappingURL=Kubectl.js.map

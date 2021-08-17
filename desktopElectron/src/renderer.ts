@@ -4,7 +4,7 @@
 // nodeIntegration is set to true in webPreferences.
 // Use preload.js to selectively enable features
 // needed in the renderer process.
-import { HelmMainController } from "./helm-client";
+import { HelmMainController } from "./electron-client";
 
 (async () => {
   let helm = new HelmMainController();
@@ -22,7 +22,8 @@ import { HelmMainController } from "./helm-client";
     await helm.getDiff(
       release.name,
       history[history.length - 3].revision,
-      history[history.length - 2].revision
+      history[history.length - 2].revision,
+      true
     )
   );
   return 0;

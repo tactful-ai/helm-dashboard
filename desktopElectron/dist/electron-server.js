@@ -36,82 +36,142 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.HelmMainController = void 0;
-var electron_1 = require("electron");
-var HelmMainController = /** @class */ (function () {
-    function HelmMainController() {
+exports.Helm = void 0;
+var child_process_1 = require("child_process");
+var util_1 = require("util");
+var execAsync = util_1.promisify(child_process_1.exec);
+var Helm = /** @class */ (function () {
+    function Helm(namespace) {
+        if (namespace === void 0) { namespace = null; }
+        this.executable = "helm";
+        this.namespace = null;
+        this.namespace = namespace;
     }
-    HelmMainController.prototype.getReleases = function () {
+    Helm.prototype.execute = function (args, json) {
+        if (json === void 0) { json = true; }
         return __awaiter(this, void 0, void 0, function () {
+            var format, fullCmd, output;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, electron_1.ipcRenderer.invoke("getReleases")];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 0:
+                        format = json ? "--output json" : "";
+                        fullCmd = this.executable + " " + args.join(" ") + " " + format;
+                        console.warn("executing: $ ", fullCmd);
+                        return [4 /*yield*/, execAsync(fullCmd)];
+                    case 1:
+                        output = _a.sent();
+                        return [2 /*return*/, output.stdout];
                 }
             });
         });
     };
-    HelmMainController.prototype.getReleaseValues = function (release) {
+    Helm.prototype.getReleases = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var output;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, electron_1.ipcRenderer.invoke("getReleaseValues", release)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 0: return [4 /*yield*/, this.execute(["list"])];
+                    case 1:
+                        output = _a.sent();
+                        return [2 /*return*/, JSON.parse(output)];
                 }
             });
         });
     };
-    HelmMainController.prototype.getReleaseHistory = function (release) {
+    Helm.prototype.getReleaseValues = function (release) {
         return __awaiter(this, void 0, void 0, function () {
+            var output;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, electron_1.ipcRenderer.invoke("getReleaseHistory", release)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 0: return [4 /*yield*/, this.execute(["get", "values", release])];
+                    case 1:
+                        output = _a.sent();
+                        return [2 /*return*/, JSON.parse(output)];
                 }
             });
         });
     };
-    HelmMainController.prototype.getHelmRepos = function () {
+    Helm.prototype.getReleaseHistory = function (release) {
         return __awaiter(this, void 0, void 0, function () {
+            var output;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, electron_1.ipcRenderer.invoke("getHelmRepos")];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 0: return [4 /*yield*/, this.execute(["history", release])];
+                    case 1:
+                        output = _a.sent();
+                        return [2 /*return*/, JSON.parse(output)];
                 }
             });
         });
     };
-    HelmMainController.prototype.getChatVersion = function (chart) {
+    Helm.prototype.getHelmRepos = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var output;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, electron_1.ipcRenderer.invoke("getChatVersion", chart)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 0: return [4 /*yield*/, this.execute(["repo", "list"])];
+                    case 1:
+                        output = _a.sent();
+                        return [2 /*return*/, JSON.parse(output)];
                 }
             });
         });
     };
-    HelmMainController.prototype.getChartName = function (chart) {
+    Helm.prototype.getChatVersion = function (chart) {
+        var rx = RegExp("-(v?[0-9]+.[0-9]+.[0-9]+.*)");
+        var matches = chart.match(rx);
+        return matches[0];
+    };
+    Helm.prototype.getChartName = function (chart) {
+        var matches = chart.match(/^(.*)-/);
+        return matches[0];
+    };
+    Helm.prototype.getDiff = function (release, rev1, rev2, toJSON) {
         return __awaiter(this, void 0, void 0, function () {
+            var output;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, electron_1.ipcRenderer.invoke("getChartName", chart)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 0: return [4 /*yield*/, this.execute([
+                            "diff",
+                            "--output",
+                            "diff",
+                            "--no-color",
+                            "revision",
+                            release,
+                            String(rev1),
+                            String(rev2),
+                        ], toJSON)];
+                    case 1:
+                        output = _a.sent();
+                        return [2 /*return*/, output];
                 }
             });
         });
     };
-    HelmMainController.prototype.getDiff = function (release, rev1, rev2) {
+    Helm.prototype.getManifest = function (release) {
         return __awaiter(this, void 0, void 0, function () {
+            var output;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, electron_1.ipcRenderer.invoke("getDiff", release, rev1, rev2)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 0: return [4 /*yield*/, this.execute([
+                            "get",
+                            "manifest",
+                            release,
+                            "|",
+                            "kubectl",
+                            "get",
+                            "--output=json",
+                            "-f",
+                            "-",
+                        ])];
+                    case 1:
+                        output = _a.sent();
+                        return [2 /*return*/, JSON.parse(output)];
                 }
             });
         });
     };
-    return HelmMainController;
+    return Helm;
 }());
-exports.HelmMainController = HelmMainController;
-//# sourceMappingURL=helm-client.js.map
+exports.Helm = Helm;
+//# sourceMappingURL=electron-server.js.map

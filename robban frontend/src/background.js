@@ -6,7 +6,7 @@ import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 import { ipcMain } from "electron";
-import { Helm } from "../../desktopElectron/dist/helm-server";
+import { Helm } from "../../desktopElectron/dist/electron-server";
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -108,5 +108,8 @@ function setupHelmHandlers() {
   });
   ipcMain.handle("getDiff", async (event, ...args) => {
     return await helm.getDiff(...args);
+  });
+  ipcMain.handle("getManifest", async (event, ...args) => {
+    return await helm.getManifest(...args);
   });
 }

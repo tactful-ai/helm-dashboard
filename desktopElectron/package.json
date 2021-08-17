@@ -8,7 +8,7 @@
     "watch": "tsc -w",
     "lint": "eslint -c .eslintrc.json --ext .ts ./src",
     "start_old": "npm run build && electron ./dist/main.js",
-    "start": "tsc -w"
+    "start": "webpack && tsc -w"
   },
   "repository": {
     "type": "git",
