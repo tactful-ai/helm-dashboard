@@ -6,7 +6,7 @@
 
 ## Description
 
-Robban is a visual web wpp, and a wesktop app that manages your helm charts' releases, compare their revisions, and get summary of their components (pods/deployments/services) status.
+Robban is a visual web wpp, and a wesktop app that manages your helm charts' releases, compare their revisions (by viewing the difference between different YAML files), and get summary of their components (pods/deployments/services) status.
 
 ## Installation
 
