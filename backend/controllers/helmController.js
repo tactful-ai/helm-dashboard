@@ -1,5 +1,5 @@
-const Helm = require("../cmd backend/helm");
-const Kubectl = require("../cmd backend/kubectl");
+const Helm = require("../cmd/helm");
+const Kubectl = require("../cmd/kubectl");
 
 const {
   getAddedDeletedLines,
