@@ -44,7 +44,7 @@ $ cd ..
 
 ## Docs
 
-You can view the diagrams explaining the data flow, and details about each class's functionalities from our [docs folder]()
+You can view the diagrams explaining the data flow, and details about each class's functionalities from our [docs folder](https://github.com/tactful-ai/helm-dashboard/tree/main/docs)
 
 ## Contributors
 
