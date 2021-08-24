@@ -17,7 +17,7 @@ To use the **Web App**, do the following:
 A. Running the express server
 
 ```
-$ cd 'robban express'
+$ cd 'backend'
 $ npm i
 $ npm start
 $ cd ..
@@ -26,7 +26,7 @@ $ cd ..
 B. Running the Vue web app
 
 ```
-$ cd 'robban frontend'
+$ cd 'frontend'
 $ npm i
 $ npm run serve
 $ cd ..
@@ -36,11 +36,15 @@ To use the **Desktop App**, do
 the following:
 
 ```
-$ cd 'robban frontend'
+$ cd 'frontend'
 $ npm i
 $ npm run electron:serve
 $ cd ..
 ```
+
+## Docs
+
+You can view the diagrams explaining the data flow, and details about each class's functionalities from our [docs folder]()
 
 ## Contributors
 

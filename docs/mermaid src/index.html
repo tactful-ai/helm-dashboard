@@ -1,0 +1,52 @@
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({ startOnLoad: true });
+</script>
+
+<style>
+  .center {
+    margin-left: 50rem;
+  }
+</style>
+
+<div class="center">
+  <h2>Data Flow</h2>
+
+  <h4>1. Web app</h4>
+  <div class="mermaid">
+    graph TD; Helm-CLI-->Express-API-->API-Connector-->Vue-App;
+  </div>
+
+  <h4>2. Desktop app</h4>
+  <div class="mermaid">
+    graph TD;
+    Helm-CLI-->Electron-server-->Electron-client-->background.js-->Electron-API-->Vue-App;
+  </div>
+
+  <h2>Important Classes</h2>
+  <h4>1. helm (backend/cmd/helm)</h4>
+  <div>Communicates with helm-cli</div>
+
+  <h4>2. kubectl (backend/cmd/kubectl)</h4>
+  <div>Communicates with keubectl-cli</div>
+
+  <h4>3. API Connector (frontend/utils/API-Connector)</h4>
+  <div>Communicates with our express API by fetching data from it</div>
+
+  <h4>4. HelmMainController (desktop/src/electron-client)</h4>
+  <div>
+    Returning data comming from the helm-cli from the render process of
+    electron, to the main process
+  </div>
+
+  <h4>5. ElectronAPI (desktop/src/ElectronAPI)</h4>
+  <div>
+    1. background.js communicates with electron-server (helm class) to retreive
+    data from it, and returns it to electron-client (HelmMainController class)
+  </div>
+  <br />
+  <div>
+    2. ElectronAPI communicates with electron-client (HelmMainController class)
+    to get the data from it, and parse it.
+  </div>
+</div>
